@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-inter: 'Inter', system-ui, sans-serif;
+    --font-playfair: 'Playfair Display', Georgia, serif;
+  }
+
+  * {
+    @apply border-white/10;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    /* Subtle grain texture */
+    background-image: 
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.015) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Smooth image transitions */
+  img {
+    transition: transform 0.7s ease-out;
+  }
+}
