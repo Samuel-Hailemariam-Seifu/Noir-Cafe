@@ -5,10 +5,12 @@ import Story from '@/components/sections/Story'
 import Specials from '@/components/sections/Specials'
 import Testimonials from '@/components/sections/Testimonials'
 import ReservationCTA from '@/components/sections/ReservationCTA'
+import HomeScrollSnap from '@/components/HomeScrollSnap'
 
 export default function Home() {
   return (
     <>
+      <HomeScrollSnap />
       <div className="pt-4 md:pt-6">
         <Hero />
       </div>

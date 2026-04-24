@@ -1,6 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Container from './Container'
 import Divider from './Divider'
 import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, Navigation } from 'lucide-react'
@@ -9,6 +11,7 @@ import { usePathname } from 'next/navigation'
 export default function Footer() {
   const pathname = usePathname()
   const showFooterMap = pathname !== '/contact'
+  const [isMapLoaded, setIsMapLoaded] = useState(false)
 
   return (
     <footer className="border-t border-white/10 bg-background-alt">
@@ -120,13 +123,36 @@ export default function Footer() {
         {showFooterMap && (
           <div className="pb-8">
             <div className="h-72 rounded-2xl relative overflow-hidden border border-white/10 bg-background">
-              <iframe
-                title="NOIR CAFE location map"
-                src="https://www.google.com/maps?q=Addis+Ababa,+Ethiopia&z=14&output=embed"
-                className="absolute inset-0 w-full h-full opacity-85"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+              {isMapLoaded ? (
+                <iframe
+                  title="NOIR CAFE location map"
+                  src="https://www.google.com/maps?q=Addis+Ababa,+Ethiopia&z=14&output=embed"
+                  className="absolute inset-0 w-full h-full opacity-85"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              ) : (
+                <div className="absolute inset-0">
+                  <Image
+                    src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1400&q=80"
+                    alt="Map preview of Addis Ababa"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 1200px"
+                    className="object-cover opacity-80"
+                  />
+                  <div className="absolute inset-0 bg-background/50" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <button
+                      type="button"
+                      onClick={() => setIsMapLoaded(true)}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-accent text-background text-sm font-semibold hover:bg-accent-light transition-colors"
+                    >
+                      <Navigation className="w-4 h-4" />
+                      Load Live Map
+                    </button>
+                  </div>
+                </div>
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/35 to-transparent pointer-events-none" />
               <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl border border-accent/40 bg-background/85 backdrop-blur-sm">
                 <div className="flex items-center justify-between gap-4">
