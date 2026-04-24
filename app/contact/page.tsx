@@ -7,9 +7,17 @@ import Container from '@/components/Container'
 import Card from '@/components/Card'
 import Badge from '@/components/Badge'
 import Button from '@/components/Button'
+import CustomSelect from '@/components/CustomSelect'
 import { Sparkles, Mail, Phone, MapPin, Clock, Send, CheckCircle2 } from 'lucide-react'
 
 export default function Contact() {
+  const eventSizeOptions = [
+    { value: '10-20', label: '10-20 guests' },
+    { value: '20-30', label: '20-30 guests' },
+    { value: '30-50', label: '30-50 guests' },
+    { value: '50+', label: '50+ guests' },
+  ]
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -55,6 +63,13 @@ export default function Contact() {
     }
     setSubmitted(true)
     console.log('Form submitted:', formData)
+  }
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData(prev => ({ ...prev, [name]: value }))
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }))
+    }
   }
 
   if (submitted) {
@@ -255,19 +270,14 @@ export default function Contact() {
                     <label htmlFor="eventSize" className="block text-sm font-medium mb-2">
                       Event Size
                     </label>
-                    <select
+                    <CustomSelect
                       id="eventSize"
                       name="eventSize"
                       value={formData.eventSize}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all"
-                    >
-                      <option value="">Select size</option>
-                      <option value="10-20">10-20 guests</option>
-                      <option value="20-30">20-30 guests</option>
-                      <option value="30-50">30-50 guests</option>
-                      <option value="50+">50+ guests</option>
-                    </select>
+                      onChange={handleSelectChange}
+                      options={eventSizeOptions}
+                      placeholder="Select size"
+                    />
                   </div>
 
                   <div>

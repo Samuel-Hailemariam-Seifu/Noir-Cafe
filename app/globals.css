@@ -25,6 +25,18 @@
   html {
     scroll-behavior: smooth;
   }
+
+  /* Keep native dropdown menu palette aligned with the site theme */
+  select option {
+    color: #F5F2EA;
+    background-color: #0B0B0B;
+  }
+
+  /* Apply brand accent on dropdown item hover where supported */
+  select option:hover {
+    color: #0B0B0B;
+    background-color: #B08D57;
+  }
 }
 
 @layer utilities {

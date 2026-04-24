@@ -1,9 +1,15 @@
+'use client'
+
 import Link from 'next/link'
 import Container from './Container'
 import Divider from './Divider'
-import { Mail, Phone, MapPin, Clock, Instagram, Facebook, Twitter } from 'lucide-react'
+import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, Navigation } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
 export default function Footer() {
+  const pathname = usePathname()
+  const showFooterMap = pathname !== '/contact'
+
   return (
     <footer className="border-t border-white/10 bg-background-alt">
       <Container>
@@ -111,17 +117,37 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Map Placeholder */}
-        <div className="pb-8">
-          <div className="h-64 rounded-2xl image-placeholder relative overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-accent/50 mx-auto mb-4" />
-                <p className="text-foreground-muted">Addis Ababa, Ethiopia</p>
+        {showFooterMap && (
+          <div className="pb-8">
+            <div className="h-72 rounded-2xl relative overflow-hidden border border-white/10 bg-background">
+              <iframe
+                title="NOIR CAFE location map"
+                src="https://www.google.com/maps?q=Addis+Ababa,+Ethiopia&z=14&output=embed"
+                className="absolute inset-0 w-full h-full opacity-85"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/35 to-transparent pointer-events-none" />
+              <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl border border-accent/40 bg-background/85 backdrop-blur-sm">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-accent mb-1">Find Us</p>
+                    <p className="text-sm text-foreground font-medium">NOIR CAFÉ, Addis Ababa</p>
+                  </div>
+                  <a
+                    href="https://maps.google.com/?q=Addis+Ababa,+Ethiopia"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-accent text-background text-xs font-semibold hover:bg-accent-light transition-colors"
+                  >
+                    <Navigation className="w-3.5 h-3.5" />
+                    Directions
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </Container>
     </footer>
   )

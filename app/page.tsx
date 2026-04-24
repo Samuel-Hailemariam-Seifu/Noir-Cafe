@@ -9,7 +9,9 @@ import ReservationCTA from '@/components/sections/ReservationCTA'
 export default function Home() {
   return (
     <>
-      <Hero />
+      <div className="pt-4 md:pt-6">
+        <Hero />
+      </div>
       <SocialProof />
       <MenuHighlights />
       <Story />

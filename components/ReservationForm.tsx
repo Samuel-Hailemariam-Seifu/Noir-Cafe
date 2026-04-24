@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, Clock, Users, CheckCircle2 } from 'lucide-react'
 import Button from './Button'
+import CustomSelect from './CustomSelect'
 
 interface ReservationFormProps {
   onSubmit?: (data: any) => void
@@ -11,6 +12,33 @@ interface ReservationFormProps {
 }
 
 export default function ReservationForm({ onSubmit, compact = false }: ReservationFormProps) {
+  const timeOptions = [
+    { value: '12:00', label: '12:00 PM' },
+    { value: '12:30', label: '12:30 PM' },
+    { value: '13:00', label: '1:00 PM' },
+    { value: '13:30', label: '1:30 PM' },
+    { value: '18:00', label: '6:00 PM' },
+    { value: '18:30', label: '6:30 PM' },
+    { value: '19:00', label: '7:00 PM' },
+    { value: '19:30', label: '7:30 PM' },
+    { value: '20:00', label: '8:00 PM' },
+    { value: '20:30', label: '8:30 PM' },
+    { value: '21:00', label: '9:00 PM' },
+  ]
+
+  const guestOptions = [1, 2, 3, 4, 5, 6, 7, 8].map(num => ({
+    value: num.toString(),
+    label: `${num} ${num === 1 ? 'Guest' : 'Guests'}`,
+  }))
+
+  const occasionOptions = [
+    { value: 'birthday', label: 'Birthday' },
+    { value: 'anniversary', label: 'Anniversary' },
+    { value: 'business', label: 'Business Dinner' },
+    { value: 'date', label: 'Date Night' },
+    { value: 'celebration', label: 'Celebration' },
+  ]
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -57,6 +85,13 @@ export default function ReservationForm({ onSubmit, compact = false }: Reservati
     setSubmitted(true)
     if (onSubmit) {
       onSubmit(formData)
+    }
+  }
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData(prev => ({ ...prev, [name]: value }))
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }))
     }
   }
 
@@ -138,26 +173,14 @@ export default function ReservationForm({ onSubmit, compact = false }: Reservati
             <Clock className="w-4 h-4 inline mr-1" />
             Time *
           </label>
-          <select
+          <CustomSelect
             id="time"
             name="time"
             value={formData.time}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all"
-          >
-            <option value="">Select time</option>
-            <option value="12:00">12:00 PM</option>
-            <option value="12:30">12:30 PM</option>
-            <option value="13:00">1:00 PM</option>
-            <option value="13:30">1:30 PM</option>
-            <option value="18:00">6:00 PM</option>
-            <option value="18:30">6:30 PM</option>
-            <option value="19:00">7:00 PM</option>
-            <option value="19:30">7:30 PM</option>
-            <option value="20:00">8:00 PM</option>
-            <option value="20:30">8:30 PM</option>
-            <option value="21:00">9:00 PM</option>
-          </select>
+            onChange={handleSelectChange}
+            options={timeOptions}
+            placeholder="Select time"
+          />
           {errors.time && <p className="mt-1 text-sm text-red-400">{errors.time}</p>}
         </div>
       </div>
@@ -167,19 +190,14 @@ export default function ReservationForm({ onSubmit, compact = false }: Reservati
           <Users className="w-4 h-4 inline mr-1" />
           Number of Guests *
         </label>
-        <select
+        <CustomSelect
           id="guests"
           name="guests"
           value={formData.guests}
-          onChange={handleChange}
-          className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all"
-        >
-          {[1, 2, 3, 4, 5, 6, 7, 8].map(num => (
-            <option key={num} value={num.toString()}>
-              {num} {num === 1 ? 'Guest' : 'Guests'}
-            </option>
-          ))}
-        </select>
+          onChange={handleSelectChange}
+          options={guestOptions}
+          placeholder="Select guests"
+        />
       </div>
 
       {!compact && (
@@ -188,20 +206,14 @@ export default function ReservationForm({ onSubmit, compact = false }: Reservati
             <label htmlFor="occasion" className="block text-sm font-medium mb-2">
               Occasion (optional)
             </label>
-            <select
+            <CustomSelect
               id="occasion"
               name="occasion"
               value={formData.occasion}
-              onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all"
-            >
-              <option value="">None</option>
-              <option value="birthday">Birthday</option>
-              <option value="anniversary">Anniversary</option>
-              <option value="business">Business Dinner</option>
-              <option value="date">Date Night</option>
-              <option value="celebration">Celebration</option>
-            </select>
+              onChange={handleSelectChange}
+              options={occasionOptions}
+              placeholder="None"
+            />
           </div>
 
           <div>
